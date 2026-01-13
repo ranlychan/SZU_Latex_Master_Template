@@ -46,7 +46,10 @@
 %全局英文字体
 \setmainfont{Times New Roman}
 %全文字体
-\setCJKmainfont{simsun.ttc} 
+\setCJKmainfont{simsun.ttc}
+%重新定义宋体命令，使用simsun.ttc以支持生僻字
+\setCJKfamilyfont{zhsong}{simsun.ttc}
+\renewcommand{\songti}{\CJKfamily{zhsong}} 
 %设置页眉的横线
 \renewcommand{\headrule}{%
     \hrule width\headwidth height1.5pt % 粗直线

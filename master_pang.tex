@@ -2,7 +2,7 @@
 \renewcommand{\titleCN}{基于XXX研究}
 \renewcommand{\titleEN}{The Research Base on XXXX}
 
-% 源代码地址： https://github.com/Ftine/SZU_Latex_Master_Template
+% 源代码地址：https://github.com/Cao-Wuhui/SZU_Latex_Master_Template
 
 % 文本
 \usepackage{ctex}
@@ -45,6 +45,7 @@
 \usepackage{floatrow}
 \usepackage{arydshln} % 加载arydshln宏包
 \usepackage{tabularx}
+\usepackage{chngcntr}
 \floatsetup[table]{capposition=top}
 \floatsetup[figure]{capposition=bottom}
 \newfloatcommand{capbtabboxTable}{table}[][\FBwidth]
@@ -52,8 +53,34 @@
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 % 脚注样式 ①②③
-\usepackage[perpage]{footmisc} % 加载 footmisc 宏包并设置 perpage 选项
-\renewcommand{\thefootnote}{\textcircled{\arabic{footnote}}} % 重新定义脚注编号格式
+% 自动检测并选择圈号覆盖更全的符号字体（按优先级回退）
+\IfFontExistsTF{Noto Sans Symbols 2}
+  {\newfontfamily\circnumfont{Noto Sans Symbols 2}}
+  {\IfFontExistsTF{Segoe UI Symbol}
+    {\newfontfamily\circnumfont{Segoe UI Symbol}}
+    {\IfFontExistsTF{Symbola}
+      {\newfontfamily\circnumfont{Symbola}}
+      {\IfFontExistsTF{Arial Unicode MS}
+        {\newfontfamily\circnumfont{Arial Unicode MS}}
+        {\newfontfamily\circnumfont{DejaVu Sans}}
+      }%
+    }%
+  }
+  
+\newcommand{\circledfootnotenum}[1]{%
+  {\circnumfont
+    \ifcase#1
+      \or ①\or ②\or ③\or ④\or ⑤\or ⑥\or ⑦\or ⑧\or ⑨\or ⑩%
+      \or ⑪\or ⑫\or ⑬\or ⑭\or ⑮\or ⑯\or ⑰\or ⑱\or ⑲\or ⑳%
+      \or ㉑\or ㉒\or ㉓\or ㉔\or ㉕\or ㉖\or ㉗\or ㉘\or ㉙\or ㉚%
+      \or ㉛\or ㉜\or ㉝\or ㉞\or ㉟\or ㊱\or ㊲\or ㊳\or ㊴\or ㊵%
+      \or ㊶\or ㊷\or ㊸\or ㊹\or ㊺\or ㊻\or ㊼\or ㊽\or ㊾\or ㊿%
+    \else
+      #1%
+    \fi
+  }%
+}
+\renewcommand{\thefootnote}{\circledfootnotenum{\value{footnote}}}
 
 \newtheorem{definition}{定义}[] % 跟随三级标题排序
 \newtheorem{theorem}{定理}[]  %跟随二级标题排序
@@ -130,6 +157,7 @@
 	
 \setlength{\baselineskip}{23pt} %设置行距23磅
 	
+\vspace*{-1\baselineskip}
 \tableofcontents	%目录
 
 %缩略语
@@ -198,6 +226,7 @@
 
 \begin{spacing}{1.8}
 	\bibliographystyle{gbt7714-2005} 
+	\vspace*{-1\baselineskip}
 	\bibliography{ref_paper}
 \end{spacing}
 
